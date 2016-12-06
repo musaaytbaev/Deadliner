@@ -23,11 +23,30 @@ namespace Deadliner.WPF
     {
         public MainWindow()
         {
-            using (var c = new Context())
+            InitializeComponent();
+        }
+
+        int counter = 0;
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var deadlineName = textBoxName.Text;
+
+            gridCards.Children.Add(new MaterialDesignThemes.Wpf.Card
             {
-                c.Deadlines.ToList();
-            }
-                InitializeComponent();
+                Content = new TextBlock()
+                {
+                    Text = deadlineName,
+                    Foreground = Brushes.Red,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                },
+                Width = 250,
+                Height = 180,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(counter*250 + 5, 5,5,5)    
+            });
+
+            counter++;
         }
     }
 }
