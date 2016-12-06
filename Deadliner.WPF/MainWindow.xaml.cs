@@ -23,7 +23,11 @@ namespace Deadliner.WPF
     {
         public MainWindow()
         {
-            InitializeComponent();
+            using (var c = new Context())
+            {
+                c.Deadlines.ToList();
+            }
+                InitializeComponent();
         }
     }
 }
