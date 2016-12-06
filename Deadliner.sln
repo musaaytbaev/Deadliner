@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.25928.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deadliner.Lib", "Deadliner.Lib\Deadliner.Lib.csproj", "{2816E26D-4C5C-41FE-B419-2B9DF07DA096}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deadliner.WPF", "Deadliner.WPF\Deadliner.WPF.csproj", "{99A833F0-1397-4C9C-92D8-97DE09255120}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2816E26D-4C5C-41FE-B419-2B9DF07DA096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2816E26D-4C5C-41FE-B419-2B9DF07DA096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2816E26D-4C5C-41FE-B419-2B9DF07DA096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2816E26D-4C5C-41FE-B419-2B9DF07DA096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99A833F0-1397-4C9C-92D8-97DE09255120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99A833F0-1397-4C9C-92D8-97DE09255120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99A833F0-1397-4C9C-92D8-97DE09255120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99A833F0-1397-4C9C-92D8-97DE09255120}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
