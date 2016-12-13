@@ -1,5 +1,4 @@
-﻿using Deadliner.Lib.DbModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,29 +23,6 @@ namespace Deadliner.WPF
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        int counter = 0;
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var deadlineName = textBoxName.Text;
-
-            gridCards.Children.Add(new MaterialDesignThemes.Wpf.Card
-            {
-                Content = new TextBlock()
-                {
-                    Text = deadlineName,
-                    Foreground = Brushes.Red,
-                    HorizontalAlignment = HorizontalAlignment.Center
-                },
-                Width = 250,
-                Height = 180,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Margin = new Thickness(counter*250 + 5, 5,5,5)    
-            });
-
-            counter++;
         }
     }
 }

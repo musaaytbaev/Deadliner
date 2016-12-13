@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.25928.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deadliner.Lib", "Deadliner.Lib\Deadliner.Lib.csproj", "{2816E26D-4C5C-41FE-B419-2B9DF07DA096}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deadliner.WPF", "Deadliner.WPF\Deadliner.WPF.csproj", "{99A833F0-1397-4C9C-92D8-97DE09255120}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deadliner.WPF", "Deadliner.WPF\Deadliner.WPF.csproj", "{67DE42DA-054D-4343-BB40-20336815B95F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{2816E26D-4C5C-41FE-B419-2B9DF07DA096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2816E26D-4C5C-41FE-B419-2B9DF07DA096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2816E26D-4C5C-41FE-B419-2B9DF07DA096}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99A833F0-1397-4C9C-92D8-97DE09255120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99A833F0-1397-4C9C-92D8-97DE09255120}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99A833F0-1397-4C9C-92D8-97DE09255120}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99A833F0-1397-4C9C-92D8-97DE09255120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67DE42DA-054D-4343-BB40-20336815B95F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67DE42DA-054D-4343-BB40-20336815B95F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67DE42DA-054D-4343-BB40-20336815B95F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67DE42DA-054D-4343-BB40-20336815B95F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
