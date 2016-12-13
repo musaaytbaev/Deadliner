@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Deadliner.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="419" Width="634">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="140"/>
@@ -27,13 +27,47 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="3">
+                <StackPanel Background="AliceBlue">
+                    <Label HorizontalAlignment="Center" FontSize="14" FontWeight="Bold">DO IT</Label>
+                    <Label HorizontalAlignment="Center" Margin="5 0">23/12/2016 23:59</Label>
+                    <TextBlock Margin="1" TextWrapping="Wrap"  >
+                    Don't let your dreams be dreams
+                    Yesterday you said tomorrow
+                    So just do it
+                    Make your dreams come true
+                    Just do it
+
+                    Some people dream of success
+                    While you're gonna wake up and work hard at it
+                    Nothing is impossible
+
+                    You should get to the point
+                    Where anyone else would quit
+                    And you're not going to stop there
+                    No, what are you waiting for?
+
+                    Do it
+                    Just do it
+                    Yes you can
+                    Just do it
+                    If you're tired of starting over
+                    Stop giving up
+                    </TextBlock>
+                    <Button Margin="2">Done</Button>
+                    <Button Margin="2">Edit</Button>
+                </StackPanel>
+            </ScrollViewer>
+            
+
         </Grid>
 
         <StackPanel Grid.Row="1" Margin="2">
             <Label>Name:</Label>
             <TextBox></TextBox>
             <Label>Description:</Label>
-            <TextBox MinLines="3"></TextBox>
+            <TextBox MinLines="3" MaxLines="6" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
             <DatePicker></DatePicker>
             <Button Margin="2">Add deadline</Button>
             <Button Margin="2">Remove deadline</Button>
