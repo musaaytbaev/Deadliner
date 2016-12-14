@@ -27,21 +27,22 @@
                 </TextBlock.Foreground>DEADLINER</TextBlock>
         </Border>
 
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="200"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Row="1" Grid.Column="1" CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid Name="gridDeadlines">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="3">
-                <StackPanel Background="AliceBlue">
-                    <Label HorizontalAlignment="Center" FontSize="14" FontWeight="Bold">DO IT</Label>
-                    <Label HorizontalAlignment="Center" Margin="5 0">23/12/2016 23:59</Label>
-                    <TextBlock Margin="1" TextWrapping="Wrap"  >
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="3">
+                    <StackPanel Background="{Binding Priority}" DataContext="{Binding Main.Deadline}">
+                        <Label HorizontalAlignment="Center" FontSize="14" FontWeight="Bold">DO IT</Label>
+                        <Label HorizontalAlignment="Center" Margin="5 0">23/12/2016 23:59</Label>
+                        <TextBlock Margin="1" TextWrapping="Wrap"  >
                     Don't let your dreams be dreams
                     Yesterday you said tomorrow
                     So just do it
@@ -63,14 +64,16 @@
                     Just do it
                     If you're tired of starting over
                     Stop giving up
-                    </TextBlock>
-                    <Button Margin="2">Done</Button>
-                    <Button Margin="2">Edit</Button>
-                </StackPanel>
-            </ScrollViewer>
+                        </TextBlock>
+                        <Button Margin="2">Done</Button>
+                        <Button Margin="2">Edit</Button>
+                    </StackPanel>
+                </ScrollViewer>
 
 
-        </Grid>
+            </Grid>
+        </ScrollViewer>
+        
 
         <StackPanel Grid.Row="1" Margin="2" Background="LightGray">
             <Label>Name:</Label>
@@ -88,7 +91,7 @@
                     <TextBlock>Facultative</TextBlock>
                 </ComboBox.Items>
             </ComboBox>
-            <Button Margin="2">Add deadline</Button>
+            <Button Margin="2" Command="{Binding AddDeadline}" Click="Button_Click">Add deadline</Button>
             <Button Margin="2">Remove deadline</Button>
         </StackPanel>
     </Grid>

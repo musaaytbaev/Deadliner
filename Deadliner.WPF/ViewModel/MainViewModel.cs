@@ -67,7 +67,10 @@ namespace Deadliner.WPF.ViewModel
             set { Set(() => Deadlines, ref _deadlines, value); }
         }
 
+        public void AddDeadline()
+        {
 
+        }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.

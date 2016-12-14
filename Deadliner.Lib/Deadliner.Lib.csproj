@@ -57,6 +57,10 @@
     <Compile Include="Migrations\201612060650052_InitialCreate.Designer.cs">
       <DependentUpon>201612060650052_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612140723317_Add_description_in_Deadline.cs" />
+    <Compile Include="Migrations\201612140723317_Add_description_in_Deadline.Designer.cs">
+      <DependentUpon>201612140723317_Add_description_in_Deadline.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
@@ -68,6 +72,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201612060650052_InitialCreate.resx">
       <DependentUpon>201612060650052_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612140723317_Add_description_in_Deadline.resx">
+      <DependentUpon>201612140723317_Add_description_in_Deadline.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
