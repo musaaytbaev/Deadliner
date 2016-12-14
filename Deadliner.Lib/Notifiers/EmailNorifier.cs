@@ -22,6 +22,32 @@ namespace Deadliner.Lib.Notifiers
             }
         }
 
+        public TimeSpan Interval
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public TimeSpan LastCall
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public void Notify()
         {
             throw new NotImplementedException();

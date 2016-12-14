@@ -11,6 +11,12 @@ namespace Deadliner.Lib
     {
         Context c = new Context();
 
+        public void Notify()
+        {
+            
+        }
+
+
         public void Add(Deadline d)
         {
             if (string.IsNullOrWhiteSpace(d.Name))
