@@ -116,5 +116,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Deadliner.Lib\Deadliner.Lib.csproj">
+      <Project>{2816E26D-4C5C-41FE-B419-2B9DF07DA096}</Project>
+      <Name>Deadliner.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

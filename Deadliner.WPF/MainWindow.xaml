@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Deadliner.WPF"
         mc:Ignorable="d"
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
         Title="MainWindow" Height="419" Width="634">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,16 +17,24 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">DEADLINER</TextBlock>
+        <Border Grid.ColumnSpan="2">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="Segoe UI Black">
+                <TextBlock.Foreground>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Red" Offset="0"/>
+                        <GradientStop Color="#FF700000" Offset="1"/>
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>DEADLINER</TextBlock>
+        </Border>
 
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="200"/>
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="3">
@@ -59,16 +68,26 @@
                     <Button Margin="2">Edit</Button>
                 </StackPanel>
             </ScrollViewer>
-            
+
 
         </Grid>
 
-        <StackPanel Grid.Row="1" Margin="2">
+        <StackPanel Grid.Row="1" Margin="2" Background="LightGray">
             <Label>Name:</Label>
-            <TextBox></TextBox>
+            <TextBox Margin="2" Text="{Binding Main.Name}"></TextBox>
             <Label>Description:</Label>
-            <TextBox MinLines="3" MaxLines="6" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
-            <DatePicker></DatePicker>
+            <TextBox MinLines="3" MaxLines="6" TextWrapping="Wrap" AcceptsReturn="True" Margin="2" Text="{Binding Main.Description}"/>
+            <DatePicker Margin="2" SelectedDate="{Binding Main.Date}"/>
+            <Label>Priority:</Label>
+
+            <ComboBox Margin="2" SelectedIndex="{Binding Main.Priority}">
+                <ComboBox.Items>
+                    <TextBlock>The most important</TextBlock>
+                    <TextBlock>Very important</TextBlock>
+                    <TextBlock>Important</TextBlock>
+                    <TextBlock>Facultative</TextBlock>
+                </ComboBox.Items>
+            </ComboBox>
             <Button Margin="2">Add deadline</Button>
             <Button Margin="2">Remove deadline</Button>
         </StackPanel>
