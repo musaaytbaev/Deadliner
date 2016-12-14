@@ -10,8 +10,6 @@ namespace Deadliner.Lib.Notifiers
     interface INotifier
     {
         Deadline Deadline { get; set; }
-        TimeSpan Interval { get; set; }
-        TimeSpan LastCall { get; set; }
         void Notify();
     }
 }

@@ -19,5 +19,7 @@ namespace Deadliner.Lib.DbModel
         public int Id { get; set; }
         public virtual Deadline Deadline { get; set; }
         public NotificationType Type { get; set; }
+        public TimeSpan Interval { get; set; }
+        public DateTime LastCall { get; set; }
     }
 }

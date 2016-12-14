@@ -43,7 +43,6 @@ namespace Deadliner.Lib.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Deadlines", t => t.Deadline_Id)
                 .Index(t => t.Deadline_Id);
-            
         }
         
         public override void Down()
