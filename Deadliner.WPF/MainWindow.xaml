@@ -3,21 +3,45 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Deadliner.WPF"
+        xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        DataContext="{Binding Main, Source={StaticResource Locator}}"
-        Title="MainWindow" Height="419" Width="634">
+        MinHeight="590"
+        MinWidth="750"
+        Title="MainWindow" Height="588.75" Width="634">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="140"/>
+            <ColumnDefinition MaxWidth="250" MinWidth="190"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Grid.ColumnSpan="2">
+        <Menu Grid.ColumnSpan="3">
+            <MenuItem Header="Действие:">
+                <MenuItem Header="Сохранить в бд"/>
+                <MenuItem Header="Создать резервную копию"/>
+            </MenuItem>
+            <MenuItem Header="Вид">
+                <CheckBox>Только актуальные</CheckBox>
+                <CheckBox IsChecked="True">Самые важные</CheckBox>
+                <CheckBox IsChecked="True">Очень важные</CheckBox>
+                <CheckBox IsChecked="True">Важные</CheckBox>
+                <CheckBox IsChecked="True">Необязательные</CheckBox>
+                <MenuItem Header="История"/>
+                <MenuItem Header="Календарь"/>
+            </MenuItem>
+            <MenuItem Header="Настройки">
+                <MenuItem Header="Настроить уведомления"/>
+                <MenuItem Header="Изменить цвета"/>
+            </MenuItem>
+            <MenuItem Header="О программе"/>
+        </Menu>
+        
+        <Border Grid.Row="1">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="Segoe UI Black">
                 <TextBlock.Foreground>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -27,10 +51,10 @@
                 </TextBlock.Foreground>DEADLINER</TextBlock>
         </Border>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1" CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.RowSpan="2" Grid.Column="2" Grid.Row="1" CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,1,0,-1">
             <Grid Name="gridDeadlines">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="220"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -38,61 +62,78 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="3">
-                    <StackPanel Background="{Binding Priority}" DataContext="{Binding Main.Deadline}">
+                <Border BorderThickness="2" BorderBrush="Orange" Margin="5" Background="LightYellow">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20">Header</Label>
+                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">16/12/16</Label>
+                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1">23:59</Label>
+                            <TextBlock Padding="5" TextWrapping="Wrap" Grid.Row="2" Grid.ColumnSpan="2">
+                                Don't let your dreams be dreams
+                                Yesterday you said tomorrow
+                                So just do it
+                                Make your dreams come true
+                                Just do it
+                            </TextBlock>
+                            <Button Grid.Row="3" Margin="2">Done</Button>
+                            <Button Grid.Row="3" Grid.Column="1" Margin="2">Edit</Button>
+                        </Grid>
+
+                        <!--<StackPanel>
                         <Label HorizontalAlignment="Center" FontSize="14" FontWeight="Bold">DO IT</Label>
                         <Label HorizontalAlignment="Center" Margin="5 0">23/12/2016 23:59</Label>
-                        <TextBlock Margin="1" TextWrapping="Wrap"  >
-                    Don't let your dreams be dreams
-                    Yesterday you said tomorrow
-                    So just do it
-                    Make your dreams come true
-                    Just do it
-
-                    Some people dream of success
-                    While you're gonna wake up and work hard at it
-                    Nothing is impossible
-
-                    You should get to the point
-                    Where anyone else would quit
-                    And you're not going to stop there
-                    No, what are you waiting for?
-
-                    Do it
-                    Just do it
-                    Yes you can
-                    Just do it
-                    If you're tired of starting over
-                    Stop giving up
-                        </TextBlock>
+                        
                         <Button Margin="2">Done</Button>
                         <Button Margin="2">Edit</Button>
-                    </StackPanel>
-                </ScrollViewer>
-
-
+                    </StackPanel>-->
+                    </ScrollViewer>
+                </Border>
+                
             </Grid>
         </ScrollViewer>
-        
 
-        <StackPanel Grid.Row="1" Margin="2" Background="LightGray">
-            <Label>Name:</Label>
-            <TextBox Margin="2" Text="{Binding Main.Name}"></TextBox>
-            <Label>Description:</Label>
-            <TextBox MinLines="3" MaxLines="6" TextWrapping="Wrap" AcceptsReturn="True" Margin="2" Text="{Binding Main.Description}"/>
-            <DatePicker Margin="2" SelectedDate="{Binding Main.Date}"/>
-            <Label>Priority:</Label>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Width="5" HorizontalAlignment="Stretch" Visibility="Visible"/>
 
-            <ComboBox Margin="2" SelectedIndex="{Binding Main.Priority}">
+        <StackPanel Grid.Row="2" Margin="2" Background="LightGray">
+            <Label FontSize="14">Название:</Label>
+            <TextBox Margin="2"></TextBox>
+            <Label FontSize="14">Описание:</Label>
+            <TextBox MinLines="3" MaxLines="6" TextWrapping="Wrap" AcceptsReturn="True" Margin="2"/>
+            <Label FontSize="14">Дата и время:</Label>
+            <xcdg:DateTimePicker Margin="2"/>
+            <Label FontSize="14">Приоритет:</Label>
+
+            <ComboBox Margin="2">
                 <ComboBox.Items>
-                    <TextBlock>The most important</TextBlock>
-                    <TextBlock>Very important</TextBlock>
-                    <TextBlock>Important</TextBlock>
-                    <TextBlock>Facultative</TextBlock>
+                    <TextBlock>Самый важный</TextBlock>
+                    <TextBlock>Очень важный</TextBlock>
+                    <TextBlock>Важный</TextBlock>
+                    <TextBlock>Необязательный</TextBlock>
                 </ComboBox.Items>
             </ComboBox>
-            <Button Margin="2" Command="{Binding AddDeadline}" Click="Button_Click">Add deadline</Button>
-            <Button Margin="2">Remove deadline</Button>
+            <Button Margin="2" Click="Button_Click">Добавить дедлайн</Button>
+            <Button Margin="2">Удалить дедлайн</Button>
+            <Label FontSize="14">Календарь</Label>
+            <Calendar Margin="2"/>
+            <Label FontSize="14">Приближающиеся:</Label>
+            <ListBox Margin="2" Name="listBoxComming">
+                <ItemsControl>
+                    <StackPanel>
+                        <TextBlock>Пока можно спать спокойно</TextBlock>
+                        <TextBlock FontSize="10">12/14/2016 11:16</TextBlock>
+                    </StackPanel>
+                </ItemsControl>
+            </ListBox>
         </StackPanel>
     </Grid>
 </Window>
