@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         MinHeight="590"
         MinWidth="800"
-        Title="MainWindow" Height="588.75" Width="634">
+        Title="Главное окно" Height="588.75" Width="634" Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="250" MinWidth="190"/>
@@ -139,8 +139,7 @@
                     <TextBlock>Необязательный</TextBlock>
                 </ComboBox.Items>
             </ComboBox>
-            <Button Name="ButtonChange" Margin="2" Height="30" Click="ButtonChange_Click" Visibility="Collapsed">Изменить</Button>
-            <Button Name="ButtonCancel" Margin="2" Height="30" Click="ButtonCancel_Click" Visibility="Collapsed">Выйти</Button>
+            <Button Name="ButtonChange" Margin="2" Height="30" Click="ButtonChange_Click" Visibility="Collapsed">Готово</Button>
 
             <Button Name="ButtonAdd" Margin="2" Height="30" Click="Button_Click">Добавить дедлайн</Button>
             <Label FontSize="14">Календарь</Label>

@@ -10,6 +10,16 @@ namespace Deadliner.Lib
     public class DeadlineRepository
     {
         List<Deadline> _deadlines = new List<Deadline>();
+        List<Deadline> _haveToRemove = new List<Deadline>();
+
+        /// <summary>
+        /// Список дедлайнов
+        /// </summary>
+        public IEnumerable<Deadline> Deadlines
+        {
+            get { return _deadlines; }
+        }
+
         /// <summary>
         /// Событие происходит при добавлении дедлайна в список.
         /// </summary>
@@ -19,9 +29,13 @@ namespace Deadliner.Lib
         /// </summary>
         public Action<Deadline> OnRemoving { get; set; }
         /// <summary>
-        /// Событие происходи при изменении дедлайна.
+        /// Событие происходит при изменении дедлайна.
         /// </summary>
-        public Action<Deadline> Update { get; set; }
+        public Action<Deadline> OnUpdating { get; set; }
+        /// <summary>
+        /// Событие проиходит при загрузке данных из бд.
+        /// </summary>
+        // public Action<List<Deadline>> OnLoad { get; set; }
 
         /// <summary>
         /// Загружает данные из базы в список
@@ -30,7 +44,11 @@ namespace Deadliner.Lib
         {
             using (var c = new Context())
             {
-                _deadlines = c.Deadlines.ToList();
+                var haveToAddList = c.Deadlines.ToList();
+                foreach (var item in haveToAddList)
+                {
+                    Add(item);
+                }
             }
         }
 
@@ -41,8 +59,13 @@ namespace Deadliner.Lib
         {
             using (var c = new Context())
             {
-                foreach (var d in _deadlines)
-                    c.Deadlines.AddOrUpdate(x => x.Name, d);
+                c.Deadlines.AddOrUpdate(x => x.Id, _deadlines.ToArray());
+
+                foreach (var item in _haveToRemove)
+                {
+                    c.Deadlines.Attach(item);
+                    c.Deadlines.Remove(item);
+                }
                 c.SaveChanges();
             }
         }
@@ -94,6 +117,7 @@ namespace Deadliner.Lib
         public void Remove(Deadline d)
         {
             _deadlines.Remove(d);
+            _haveToRemove.Add(d);
 
             OnRemoving?.Invoke(d);
         }
@@ -120,6 +144,11 @@ namespace Deadliner.Lib
                     where d.Priority == p
                     where d.Time > DateTime.Now
                     select d).ToList();
+        }
+
+        public Deadline GetById(int id)
+        {
+            return _deadlines.Single(x => x.Id == id);
         }
     }
 }

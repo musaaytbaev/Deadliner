@@ -22,7 +22,9 @@ namespace Deadliner.WPF
 
             repo.OnAdding += MyItems_Insert;
             repo.OnRemoving += MyItems_Remove;
-            stackPanelInput.DataContext = new DeadlineViewModel();
+            stackPanelInput.DataContext = new DeadlineViewModel() { Time = DateTime.Now + new TimeSpan(1,0,0) };
+
+            repo.Load();
         }
 
         private void MyItems_Remove(Deadline d)
@@ -30,7 +32,7 @@ namespace Deadliner.WPF
             DeadlineViewModel dvm;
             foreach (var item in MyItems.Items)
             {
-                if ((dvm = item as DeadlineViewModel).Name == d.Name)
+                if ((dvm = item as DeadlineViewModel).Name == d.Name && dvm.Time == d.Time)
                 {
                     MyItems.Items.Remove(dvm);
                     cells[dvm.Row, dvm.Column] = false;
@@ -55,6 +57,7 @@ namespace Deadliner.WPF
 
             DeadlineViewModel dvm = new DeadlineViewModel()
             {
+                Id = d.Id,
                 Name = d.Name,
                 Time = d.Time,
                 Description = d.Description,
@@ -79,7 +82,9 @@ namespace Deadliner.WPF
                     Priority = d.Priority,
                     Time = d.Time
                 });
-            } catch (Exception ex)
+                stackPanelInput.DataContext = new DeadlineViewModel() { Time = DateTime.Now + new TimeSpan(1,0,0) };
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -100,15 +105,12 @@ namespace Deadliner.WPF
         private void FinishDeadline_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
             Border border = (Border)sender;
-            DeadlineViewModel d = border.DataContext as DeadlineViewModel;
+            DeadlineViewModel dvm = border.DataContext as DeadlineViewModel;
 
-            repo.Remove(new Deadline
-            {
-                Name = d.Name,
-                Description = d.Description,
-                Priority = d.Priority,
-                Time = d.Time
-            });
+            var d = repo.GetById(dvm.Id);
+
+            if (MessageBox.Show("Правда готово?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                repo.Remove(d);
         }
 
         private void EditDeadline_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
@@ -136,15 +138,14 @@ namespace Deadliner.WPF
                     stackPanelInput.Background = Brushes.LightGray;
                     MyItems.IsEnabled = true;
                     textBlockHeader.Text = "DEADLINER";
-                    ButtonCancel.Visibility = Visibility.Collapsed;
                     ButtonChange.Visibility = Visibility.Collapsed;
                     ButtonAdd.Visibility = Visibility.Visible;
+                    stackPanelInput.DataContext = new DeadlineViewModel() { Time = DateTime.Now + new TimeSpan(1, 0, 0) };
                     break;
                 case EditMode.Edit:
-                    stackPanelInput.Background = Brushes.Azure;
+                    stackPanelInput.Background = Brushes.GreenYellow;
                     MyItems.IsEnabled = false;
                     textBlockHeader.Text = "Редактор";
-                    ButtonCancel.Visibility = Visibility.Visible;
                     ButtonChange.Visibility = Visibility.Visible;
                     ButtonAdd.Visibility = Visibility.Collapsed;
                     break;
@@ -153,12 +154,19 @@ namespace Deadliner.WPF
 
         private void ButtonChange_Click(object sender, RoutedEventArgs e)
         {
+            DeadlineViewModel dvm = stackPanelInput.DataContext as DeadlineViewModel;
+            var d = repo.GetById(dvm.Id);
+            d.Name = dvm.Name;
+            d.Description = dvm.Description;
+            d.Time = dvm.Time;
+            d.Priority = dvm.Priority;
 
+            TurnEditMode(EditMode.Add);
         }
 
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            TurnEditMode(EditMode.Add);
+            repo.Save();
         }
     }
 }
