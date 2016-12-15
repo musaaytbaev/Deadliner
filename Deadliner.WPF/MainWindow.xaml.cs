@@ -4,6 +4,7 @@ using Deadliner.Lib.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Deadliner.WPF
 {
@@ -85,7 +86,7 @@ namespace Deadliner.WPF
 
         }
 
-        private void FinishDeadlie_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        private void Deadline_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
         {
             Border grid = (Border)sender;
             DeadlineViewModel d = grid.DataContext as DeadlineViewModel;
@@ -98,8 +99,8 @@ namespace Deadliner.WPF
 
         private void FinishDeadline_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-            Border grid = (Border)sender;
-            DeadlineViewModel d = grid.DataContext as DeadlineViewModel;
+            Border border = (Border)sender;
+            DeadlineViewModel d = border.DataContext as DeadlineViewModel;
 
             repo.Remove(new Deadline
             {
@@ -108,6 +109,56 @@ namespace Deadliner.WPF
                 Priority = d.Priority,
                 Time = d.Time
             });
+        }
+
+        private void EditDeadline_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        {
+            Border border = (Border)sender;
+            DeadlineViewModel d = border.DataContext as DeadlineViewModel;
+        }
+
+        private void EditDeadline_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            Border border = (Border)sender;
+            DeadlineViewModel d = border.DataContext as DeadlineViewModel;
+
+            stackPanelInput.DataContext = d;
+            TurnEditMode(EditMode.Edit);
+        }
+
+        private enum EditMode { Add, Edit };
+
+        private void TurnEditMode(EditMode mode)
+        {
+            switch (mode)
+            {
+                case EditMode.Add:
+                    stackPanelInput.Background = Brushes.LightGray;
+                    MyItems.IsEnabled = true;
+                    textBlockHeader.Text = "DEADLINER";
+                    ButtonCancel.Visibility = Visibility.Collapsed;
+                    ButtonChange.Visibility = Visibility.Collapsed;
+                    ButtonAdd.Visibility = Visibility.Visible;
+                    break;
+                case EditMode.Edit:
+                    stackPanelInput.Background = Brushes.Azure;
+                    MyItems.IsEnabled = false;
+                    textBlockHeader.Text = "Редактор";
+                    ButtonCancel.Visibility = Visibility.Visible;
+                    ButtonChange.Visibility = Visibility.Visible;
+                    ButtonAdd.Visibility = Visibility.Collapsed;
+                    break;
+            }
+        }
+
+        private void ButtonChange_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            TurnEditMode(EditMode.Add);
         }
     }
 }

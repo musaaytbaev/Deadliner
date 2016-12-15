@@ -13,6 +13,11 @@ namespace Deadliner.WPF
             "FinishDeadline", typeof(FormatCommands));
 
         public static RoutedUICommand FinishDeadline { get { return finishDeadline; } }
+
+        static RoutedUICommand editDeadline = new RoutedUICommand("Изменить дедлайн",
+            "EditDeadline", typeof(FormatCommands));
+
+        public static RoutedUICommand EditDeadline { get { return editDeadline; } }
     }
 }
 

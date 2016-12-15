@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:Deadliner.WPF"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:lib="clr-namespace:Deadliner.Lib.ViewModels;assembly=Deadliner.Lib"
         mc:Ignorable="d"
         MinHeight="590"
@@ -44,7 +45,7 @@
         </Menu>
 
         <Border Grid.Row="1">
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="Segoe UI Black">
+            <TextBlock Name="textBlockHeader" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="Segoe UI Black">
                 <TextBlock.Foreground>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Red" Offset="0"/>
@@ -96,12 +97,15 @@
                                     <TextBlock Padding="5" TextWrapping="Wrap" Text="{Binding Description}"/>
                                 </ScrollViewer>
                                 <Button Grid.Row="3" Margin="2" Command="{x:Static local:FormatCommands.FinishDeadline}" >Done</Button>
-                                <Button Grid.Row="3" Grid.Column="1" Margin="2">Edit</Button>
+                                <Button Grid.Row="3" Command="{x:Static local:FormatCommands.EditDeadline}"  Grid.Column="1" Margin="2">Edit</Button>
                             </Grid>
                             <Border.CommandBindings>
                                 <CommandBinding Command="{x:Static local:FormatCommands.FinishDeadline}"
                                                     Executed="FinishDeadline_Executed"
-                                                    CanExecute="FinishDeadlie_CanExecute"/>
+                                                    CanExecute="Deadline_CanExecute"/>
+                                <CommandBinding Command="{x:Static local:FormatCommands.EditDeadline}"
+                                                Executed="EditDeadline_Executed"
+                                                CanExecute="Deadline_CanExecute"/>
                             </Border.CommandBindings>
                         </Border>
                     </DataTemplate>
@@ -125,7 +129,7 @@
             <Label FontSize="14">Описание:</Label>
             <TextBox Text="{Binding Description, Mode=TwoWay}" MinLines="3" MaxLines="6" TextWrapping="Wrap" AcceptsReturn="True" Margin="2"/>
             <Label FontSize="14">Дата и время:</Label>
-            <xcdg:DateTimePicker Margin="2" Value="{Binding Time, Mode=TwoWay}"/>
+            <xcdg:DateTimePicker Margin="2" Value="{Binding Time, Mode=TwoWay}" DefaultValue="{x:Static sys:DateTime.Now}" Name="dateTimePicker"/>
             <Label FontSize="14">Приоритет:</Label>
             <ComboBox Margin="2" SelectedIndex="{Binding Priority, Mode=TwoWay}">
                 <ComboBox.Items>
@@ -135,8 +139,10 @@
                     <TextBlock>Необязательный</TextBlock>
                 </ComboBox.Items>
             </ComboBox>
-            <Button Margin="2" Click="Button_Click">Добавить дедлайн</Button>
-            <Button Margin="2">Удалить дедлайн</Button>
+            <Button Name="ButtonChange" Margin="2" Height="30" Click="ButtonChange_Click" Visibility="Collapsed">Изменить</Button>
+            <Button Name="ButtonCancel" Margin="2" Height="30" Click="ButtonCancel_Click" Visibility="Collapsed">Выйти</Button>
+
+            <Button Name="ButtonAdd" Margin="2" Height="30" Click="Button_Click">Добавить дедлайн</Button>
             <Label FontSize="14">Календарь</Label>
             <Calendar Margin="2"/>
             <Label FontSize="14">Приближающиеся:</Label>
