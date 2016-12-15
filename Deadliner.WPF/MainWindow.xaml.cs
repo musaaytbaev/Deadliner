@@ -2,19 +2,8 @@
 using Deadliner.Lib.DbModel;
 using Deadliner.Lib.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Deadliner.WPF
 {
@@ -31,8 +20,22 @@ namespace Deadliner.WPF
             InitializeComponent();
 
             repo.OnAdding += MyItems_Insert;
-            repo.OnRemoving += d => MyItems.Items.Remove(d);
+            repo.OnRemoving += MyItems_Remove;
             stackPanelInput.DataContext = new DeadlineViewModel();
+        }
+
+        private void MyItems_Remove(Deadline d)
+        {
+            DeadlineViewModel dvm;
+            foreach (var item in MyItems.Items)
+            {
+                if ((dvm = item as DeadlineViewModel).Name == d.Name)
+                {
+                    MyItems.Items.Remove(dvm);
+                    cells[dvm.Row, dvm.Column] = false;
+                    break;
+                }
+            }
         }
 
         private void MyItems_Insert(Deadline d)
@@ -55,8 +58,8 @@ namespace Deadliner.WPF
                 Time = d.Time,
                 Description = d.Description,
                 Priority = d.Priority,
-                Row = j,
-                Column = i
+                Row = i,
+                Column = j
             };
 
             MyItems.Items.Add(dvm);
@@ -65,8 +68,40 @@ namespace Deadliner.WPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var d = stackPanelInput.DataContext as DeadlineViewModel;
-            repo.Add(new Deadline
+            try
+            {
+                var d = stackPanelInput.DataContext as DeadlineViewModel;
+                repo.Add(new Deadline
+                {
+                    Name = d.Name,
+                    Description = d.Description,
+                    Priority = d.Priority,
+                    Time = d.Time
+                });
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+
+        private void FinishDeadlie_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        {
+            Border grid = (Border)sender;
+            DeadlineViewModel d = grid.DataContext as DeadlineViewModel;
+
+            if (d == null)
+                e.CanExecute = false;
+            else
+                e.CanExecute = true;
+        }
+
+        private void FinishDeadline_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            Border grid = (Border)sender;
+            DeadlineViewModel d = grid.DataContext as DeadlineViewModel;
+
+            repo.Remove(new Deadline
             {
                 Name = d.Name,
                 Description = d.Description,

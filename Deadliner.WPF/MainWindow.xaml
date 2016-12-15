@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:Deadliner.WPF"
+        xmlns:lib="clr-namespace:Deadliner.Lib.ViewModels;assembly=Deadliner.Lib"
         mc:Ignorable="d"
         MinHeight="590"
         MinWidth="800"
@@ -74,9 +76,9 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="{x:Type lib:DeadlineViewModel}">
                         <Border Name="card" BorderThickness="2" Margin="2" BorderBrush="Orange" Background="{Binding Background}">
-                            <Grid Name="gridSampleDeadline">
+                            <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="30"/>
@@ -93,9 +95,14 @@
                                 <ScrollViewer  Grid.Row="2" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
                                     <TextBlock Padding="5" TextWrapping="Wrap" Text="{Binding Description}"/>
                                 </ScrollViewer>
-                                <Button Grid.Row="3" Margin="2" >Done</Button>
+                                <Button Grid.Row="3" Margin="2" Command="{x:Static local:FormatCommands.FinishDeadline}" >Done</Button>
                                 <Button Grid.Row="3" Grid.Column="1" Margin="2">Edit</Button>
                             </Grid>
+                            <Border.CommandBindings>
+                                <CommandBinding Command="{x:Static local:FormatCommands.FinishDeadline}"
+                                                    Executed="FinishDeadline_Executed"
+                                                    CanExecute="FinishDeadlie_CanExecute"/>
+                            </Border.CommandBindings>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

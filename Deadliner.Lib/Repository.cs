@@ -89,11 +89,7 @@ namespace Deadliner.Lib
         /// <param name="d">Старый дедлайн</param>
         public void Remove(Deadline d)
         {
-            using (var c = new Context())
-            {
-                c.Deadlines.Remove(d);
-                c.SaveChanges();
-            }
+            _deadlines.Remove(d);
 
             OnRemoving?.Invoke(d);
         }
