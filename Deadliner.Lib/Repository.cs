@@ -18,6 +18,10 @@ namespace Deadliner.Lib
         /// Событие происходит при удалении дедлайна из списка.
         /// </summary>
         public Action<Deadline> OnRemoving { get; set; }
+        /// <summary>
+        /// Событие происходи при изменении дедлайна.
+        /// </summary>
+        public Action<Deadline> Update { get; set; }
 
         /// <summary>
         /// Загружает данные из базы в список
