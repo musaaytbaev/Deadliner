@@ -23,6 +23,9 @@ namespace Deadliner.Lib.Notifiers
 
         public IEnumerable<INotifier> GetNotifier(Deadline d)
         {
+            if (d.Notifications.Count == 0)
+                throw new ArgumentOutOfRangeException();
+
             foreach (var noty in d.Notifications)
             {
                 switch (noty.Type)

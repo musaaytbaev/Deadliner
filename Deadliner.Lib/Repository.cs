@@ -20,6 +20,14 @@ namespace Deadliner.Lib
             get { return _deadlines; }
         }
 
+        public int LastId
+        {
+            get
+            {
+                return _deadlines.Max(d => d.Id);
+            }
+        }
+
         /// <summary>
         /// Событие происходит при добавлении дедлайна в список.
         /// </summary>
@@ -77,20 +85,17 @@ namespace Deadliner.Lib
         public void Notify()
         {
             var now = DateTime.Now;
+            var haveToNotifyList = (from d in _deadlines
+                                    from n in d.Notifications
+                                    where n.LastCall <= now
+                                    select n).ToList();
 
-            var mustNotyList = (from d in _deadlines
-                                from n in d.Notifications
-                                where n.LastCall <= now
-                                orderby n.Deadline.Priority
-                                select n).AsEnumerable();
-
-            foreach (var noty in mustNotyList)
-            {
-                foreach (var notifier in NotyFactory.Default.GetNotifier(noty.Deadline))
+            foreach (var n in haveToNotifyList)
+                foreach (var notifier in NotyFactory.Default.GetNotifier(n.Deadline))
                 {
                     notifier.Notify();
+                    n.LastCall += new TimeSpan(1, 0, 0);
                 }
-            }
         }
 
         /// <summary>
@@ -101,11 +106,14 @@ namespace Deadliner.Lib
         {
             if (string.IsNullOrWhiteSpace(d.Name))
                 throw new ArgumentException("Имя дедлайна не может быть пустым или состоять только из пробелов");
-            if (d.Time < DateTime.Now + new TimeSpan(1, 0, 0))
-                throw new ArgumentException("Время дедлайна не может быть раньше текущего времени, дедлайн должен наступить хотябы через час");
+            //if (d.Time < DateTime.Now + new TimeSpan(1, 0, 0))
+            //    throw new ArgumentException("Время дедлайна не может быть раньше текущего времени, дедлайн должен наступить хотябы через час");
 
             _deadlines.Add(d);
             _deadlines = _deadlines.OrderBy(x => x.Time).ToList();
+
+            if (d.Notifications == null)
+                d.Notifications = new List<Notification>();
 
             OnAdding?.Invoke(d);
         }
@@ -148,6 +156,8 @@ namespace Deadliner.Lib
 
         public Deadline GetById(int id)
         {
+            if (id == 0)
+                return null;
             return _deadlines.Single(x => x.Id == id);
         }
     }

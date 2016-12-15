@@ -21,7 +21,7 @@ namespace Deadliner.Lib.DbModel
         public string Description { get; set; }
         public DateTime Time { get; set; }
         public Priority Priority { get; set; }
-        public virtual List<Task> Tasks { get; set; }
-        public virtual List<Notification> Notifications { get; set; }
+        public List<Task> Tasks { get; set; }
+        public List<Notification> Notifications { get; set; }
     }
 }

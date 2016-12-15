@@ -1,30 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Deadliner.Lib.DbModel;
+﻿using Deadliner.Lib.DbModel;
+using System.Windows;
 
 namespace Deadliner.Lib.Notifiers
 {
     class WinNorifier : INotifier
     {
-        public Deadline Deadline
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Deadline Deadline { get; set; }
 
         public void Notify()
         {
-            throw new NotImplementedException();
+            MessageBox.Show(Deadline.Name);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Deadliner.Lib.DbModel
     public class Task
     {
         public int Id { get; set; }
-        public virtual Deadline Deadline { get; set; }
+        public Deadline Deadline { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public TimeSpan TimeToDo { get; set; }

@@ -2,9 +2,11 @@
 using Deadliner.Lib.DbModel;
 using Deadliner.Lib.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Deadliner.WPF
 {
@@ -22,9 +24,19 @@ namespace Deadliner.WPF
 
             repo.OnAdding += MyItems_Insert;
             repo.OnRemoving += MyItems_Remove;
-            stackPanelInput.DataContext = new DeadlineViewModel() { Time = DateTime.Now + new TimeSpan(1,0,0) };
+            stackPanelInput.DataContext = new DeadlineViewModel() { Time = DateTime.Now + new TimeSpan(1, 0, 0) };
+
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(500);
+            timer.Tick += Timer_Tick;
+            timer.Start();
 
             repo.Load();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            repo.Notify();
         }
 
         private void MyItems_Remove(Deadline d)
@@ -74,21 +86,32 @@ namespace Deadliner.WPF
         {
             try
             {
-                var d = stackPanelInput.DataContext as DeadlineViewModel;
-                repo.Add(new Deadline
+                var dvm = stackPanelInput.DataContext as DeadlineViewModel;
+                var d = new Deadline
                 {
-                    Name = d.Name,
-                    Description = d.Description,
-                    Priority = d.Priority,
-                    Time = d.Time
-                });
-                stackPanelInput.DataContext = new DeadlineViewModel() { Time = DateTime.Now + new TimeSpan(1,0,0) };
+                    Id = repo.LastId + 1,
+                    Name = dvm.Name,
+                    Description = dvm.Description,
+                    Priority = dvm.Priority,
+                    Time = dvm.Time,
+                };
+
+                var noti = new Notification
+                {
+                    Deadline = d,
+                    Type = NotificationType.Visual,
+                    LastCall = d.Time - new TimeSpan(1, 0, 0)
+                };
+
+                d.Notifications = new List<Notification> { noti };
+
+                repo.Add(d);
+                stackPanelInput.DataContext = new DeadlineViewModel() { Time = DateTime.Now + new TimeSpan(1, 0, 0) };
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
         private void Deadline_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
@@ -110,7 +133,10 @@ namespace Deadliner.WPF
             var d = repo.GetById(dvm.Id);
 
             if (MessageBox.Show("Правда готово?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                repo.Remove(d);
+            {
+                if (d != null)
+                    repo.Remove(d);
+            }
         }
 
         private void EditDeadline_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
@@ -156,10 +182,13 @@ namespace Deadliner.WPF
         {
             DeadlineViewModel dvm = stackPanelInput.DataContext as DeadlineViewModel;
             var d = repo.GetById(dvm.Id);
-            d.Name = dvm.Name;
-            d.Description = dvm.Description;
-            d.Time = dvm.Time;
-            d.Priority = dvm.Priority;
+            if (d != null)
+            {
+                d.Name = dvm.Name;
+                d.Description = dvm.Description;
+                d.Time = dvm.Time;
+                d.Priority = dvm.Priority;
+            }
 
             TurnEditMode(EditMode.Add);
         }
