@@ -6,7 +6,7 @@
         xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         MinHeight="590"
-        MinWidth="750"
+        MinWidth="800"
         Title="MainWindow" Height="588.75" Width="634">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -40,7 +40,7 @@
             </MenuItem>
             <MenuItem Header="О программе"/>
         </Menu>
-        
+
         <Border Grid.Row="1">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="Segoe UI Black">
                 <TextBlock.Foreground>
@@ -52,68 +52,75 @@
         </Border>
 
         <ScrollViewer Grid.RowSpan="2" Grid.Column="2" Grid.Row="1" CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,1,0,-1">
-            <Grid Name="gridDeadlines">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="220"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="250"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Border BorderThickness="2" BorderBrush="Orange" Margin="5" Background="LightYellow">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="3">
-                        <Grid>
+            <ItemsControl Name="MyItems">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid Name="gridDeadlines">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="220"/>
+                                <RowDefinition Height="220"/>
+                                <RowDefinition Height="220"/>
+                                <RowDefinition Height="220"/>
+                                <RowDefinition Height="220"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="250"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20">Header</Label>
-                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">16/12/16</Label>
-                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1">23:59</Label>
-                            <TextBlock Padding="5" TextWrapping="Wrap" Grid.Row="2" Grid.ColumnSpan="2">
-                                Don't let your dreams be dreams
-                                Yesterday you said tomorrow
-                                So just do it
-                                Make your dreams come true
-                                Just do it
-                            </TextBlock>
-                            <Button Grid.Row="3" Margin="2">Done</Button>
-                            <Button Grid.Row="3" Grid.Column="1" Margin="2">Edit</Button>
                         </Grid>
-
-                        <!--<StackPanel>
-                        <Label HorizontalAlignment="Center" FontSize="14" FontWeight="Bold">DO IT</Label>
-                        <Label HorizontalAlignment="Center" Margin="5 0">23/12/2016 23:59</Label>
-                        
-                        <Button Margin="2">Done</Button>
-                        <Button Margin="2">Edit</Button>
-                    </StackPanel>-->
-                    </ScrollViewer>
-                </Border>
-                
-            </Grid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Name="card" BorderThickness="2" Margin="2" BorderBrush="Orange" Background="{Binding Background}">
+                            <Grid Name="gridSampleDeadline">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20" Content="{Binding Name}"/>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Content="{Binding Time.Date}"/>
+                                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Content="{Binding Time.TimeOfDay}"/>
+                                <ScrollViewer  Grid.Row="2" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+                                    <TextBlock Padding="5" TextWrapping="Wrap" Text="{Binding Description}"/>
+                                </ScrollViewer>
+                                <Button Grid.Row="3" Margin="2" >Done</Button>
+                                <Button Grid.Row="3" Grid.Column="1" Margin="2">Edit</Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Style.Setters>
+                            <Setter Property="Grid.Row" Value="{Binding Row}" />
+                            <Setter Property="Grid.Column" Value="{Binding Column}" />
+                        </Style.Setters>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
         </ScrollViewer>
 
         <GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Width="5" HorizontalAlignment="Stretch" Visibility="Visible"/>
 
-        <StackPanel Grid.Row="2" Margin="2" Background="LightGray">
+        <StackPanel Grid.Row="2" Margin="2" Background="LightGray" Name="stackPanelInput">
             <Label FontSize="14">Название:</Label>
-            <TextBox Margin="2"></TextBox>
+            <TextBox Margin="2" Text="{Binding Name, Mode=TwoWay}"/>
             <Label FontSize="14">Описание:</Label>
-            <TextBox MinLines="3" MaxLines="6" TextWrapping="Wrap" AcceptsReturn="True" Margin="2"/>
+            <TextBox Text="{Binding Description, Mode=TwoWay}" MinLines="3" MaxLines="6" TextWrapping="Wrap" AcceptsReturn="True" Margin="2"/>
             <Label FontSize="14">Дата и время:</Label>
-            <xcdg:DateTimePicker Margin="2"/>
+            <xcdg:DateTimePicker Margin="2" Value="{Binding Time, Mode=TwoWay}"/>
             <Label FontSize="14">Приоритет:</Label>
-
-            <ComboBox Margin="2">
+            <ComboBox Margin="2" SelectedIndex="{Binding Priority, Mode=TwoWay}">
                 <ComboBox.Items>
                     <TextBlock>Самый важный</TextBlock>
                     <TextBlock>Очень важный</TextBlock>
@@ -129,8 +136,8 @@
             <ListBox Margin="2" Name="listBoxComming">
                 <ItemsControl>
                     <StackPanel>
-                        <TextBlock>Пока можно спать спокойно</TextBlock>
-                        <TextBlock FontSize="10">12/14/2016 11:16</TextBlock>
+                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock FontSize="10" Text="{Binding Date}"/>
                     </StackPanel>
                 </ItemsControl>
             </ListBox>

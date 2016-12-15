@@ -4,12 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Deadliner.Lib
 {
-    class DeadlineRepository
+    public class DeadlineRepository
     {
         List<Deadline> _deadlines = new List<Deadline>();
         /// <summary>

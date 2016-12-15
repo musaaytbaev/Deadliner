@@ -1,4 +1,6 @@
-﻿using Deadliner.Lib.DbModel;
+﻿using Deadliner.Lib;
+using Deadliner.Lib.DbModel;
+using Deadliner.Lib.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,52 +23,56 @@ namespace Deadliner.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        DeadlineRepository repo = new DeadlineRepository();
+        bool[,] cells = new bool[5, 4];
+
         public MainWindow()
         {
             InitializeComponent();
+
+            repo.OnAdding += MyItems_Insert;
+            repo.OnRemoving += d => MyItems.Items.Remove(d);
+            stackPanelInput.DataContext = new DeadlineViewModel();
         }
 
-        int i = 1;
-        int j = 0;
+        private void MyItems_Insert(Deadline d)
+        {
+            int i = 0, j = 0;
+            for (i = 0; i < cells.GetLength(0) - 1; i++)
+            {
+                for (j = 0; j < cells.GetLength(1) - 1; j++)
+                {
+                    if (!cells[i, j])
+                        break;
+                }
+                if (!cells[i, j])
+                    break;
+            }
+
+            DeadlineViewModel dvm = new DeadlineViewModel()
+            {
+                Name = d.Name,
+                Time = d.Time,
+                Description = d.Description,
+                Priority = d.Priority,
+                Row = j,
+                Column = i
+            };
+
+            MyItems.Items.Add(dvm);
+            cells[i, j] = true;
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ScrollViewer scrollViewer = new ScrollViewer()
+            var d = stackPanelInput.DataContext as DeadlineViewModel;
+            repo.Add(new Deadline
             {
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                Background = Brushes.Red,
-                Margin = new Thickness(5)
-            };
-            StackPanel spDeadline = new StackPanel();
-            TextBlock header = new TextBlock
-            {
-                Text = "New deadline",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                FontSize = 18,
-                FontWeight = FontWeights.Bold
-            };
-            spDeadline.Children.Add(header);
-            scrollViewer.Content = spDeadline;
-
-            gridDeadlines.ColumnDefinitions.Add(new ColumnDefinition()
-            {
-                Width = new GridLength(250)
+                Name = d.Name,
+                Description = d.Description,
+                Priority = d.Priority,
+                Time = d.Time
             });
-
-            gridDeadlines.Children.Add(scrollViewer);
-            Grid.SetColumn(scrollViewer, i);
-            Grid.SetRow(scrollViewer, j);
-
-            i++;
-            if (i == 5)
-            {
-                i = 0;
-                j++;
-                gridDeadlines.RowDefinitions.Add(new RowDefinition()
-                {
-                    Height = new GridLength(250)
-                });
-            }
         }
     }
 }
