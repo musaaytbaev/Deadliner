@@ -9,7 +9,13 @@ namespace Deadliner.Lib.Notifiers
 {
     interface INotifier
     {
+        /// <summary>
+        /// поле Дедлайн
+        /// </summary>
         Deadline Deadline { get; set; }
+        /// <summary>
+        /// Метод для запуска уведомления
+        /// </summary>
         void Notify();
     }
 }

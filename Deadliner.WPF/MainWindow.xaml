@@ -143,7 +143,9 @@
 
             <Button Name="ButtonAdd" Margin="2" Height="30" Click="Button_Click">Добавить дедлайн</Button>
             <Label FontSize="14">Календарь</Label>
-            <Calendar Margin="2"/>
+            <Calendar Margin="2">
+                
+            </Calendar>
             <Label FontSize="14">Приближающиеся:</Label>
             <ListBox Margin="2" Name="listBoxComming">
                 <ItemsControl>

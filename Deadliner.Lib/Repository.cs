@@ -20,11 +20,13 @@ namespace Deadliner.Lib
             get { return _deadlines; }
         }
 
+        private int _lastId = 0;
+
         public int LastId
         {
             get
             {
-                return _deadlines.Max(d => d.Id);
+                return _lastId;
             }
         }
 
@@ -36,14 +38,6 @@ namespace Deadliner.Lib
         /// Событие происходит при удалении дедлайна из списка.
         /// </summary>
         public Action<Deadline> OnRemoving { get; set; }
-        /// <summary>
-        /// Событие происходит при изменении дедлайна.
-        /// </summary>
-        public Action<Deadline> OnUpdating { get; set; }
-        /// <summary>
-        /// Событие проиходит при загрузке данных из бд.
-        /// </summary>
-        // public Action<List<Deadline>> OnLoad { get; set; }
 
         /// <summary>
         /// Загружает данные из базы в список
@@ -71,8 +65,8 @@ namespace Deadliner.Lib
 
                 foreach (var item in _haveToRemove)
                 {
-                    c.Deadlines.Attach(item);
-                    c.Deadlines.Remove(item);
+                    //c.Deadlines.Attach(item);
+                    //c.Deadlines.Remove(item);
                 }
                 c.SaveChanges();
             }
@@ -116,6 +110,7 @@ namespace Deadliner.Lib
                 d.Notifications = new List<Notification>();
 
             OnAdding?.Invoke(d);
+            _lastId++;
         }
 
         /// <summary>
@@ -154,6 +149,11 @@ namespace Deadliner.Lib
                     select d).ToList();
         }
 
+        /// <summary>
+        /// Возвращает дедлайн по его id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Deadline GetById(int id)
         {
             if (id == 0)
